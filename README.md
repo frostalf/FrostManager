@@ -1,4 +1,4 @@
-FrostManaager
+FrostManager
 =========
 
 Allows for enabling or disabling plugins without restarting server.
