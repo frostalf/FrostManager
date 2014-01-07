@@ -50,7 +50,6 @@
             <artifactId>bukkit</artifactId>
             <version>1.7.2-R0.3-SNAPSHOT</version>
             <type>jar</type>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
