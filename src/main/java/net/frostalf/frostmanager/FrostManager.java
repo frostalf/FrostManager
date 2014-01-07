@@ -40,5 +40,4 @@ public class FrostManager extends JavaPlugin {
             this.pluginNames.add(name);
         }
     }
-    
 }
