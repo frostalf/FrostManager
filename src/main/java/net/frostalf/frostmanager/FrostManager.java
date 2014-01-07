@@ -2,11 +2,9 @@
 package net.frostalf.frostmanager;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import net.frostalf.frostmanager.listeners.FrostManagerListener;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
