@@ -26,7 +26,7 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if(cmd.getName().equalsIgnoreCase("disable")){
             if(Permissions.DISABLE.hasPerm(sender)){
-                if(args.length > 0 && args.length < 2){
+                if(args.length < 0 && args.length > 2){
                     pm.disablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     plugin.reCacheData();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
@@ -50,7 +50,7 @@ public class Commands implements CommandExecutor {
         
         if(cmd.getName().equalsIgnoreCase("enable")){
             if(Permissions.ENABLE.hasPerm(sender)){
-              if(args.length > 0 && args.length < 2){
+              if(args.length < 0 && args.length > 2){
                     pm.enablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
                     plugin.reCacheData();
@@ -75,7 +75,7 @@ public class Commands implements CommandExecutor {
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
                 }
-                if(args.length > 0 && args.length < 2){
+                if(args.length < 0 && args.length > 2){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getVersion()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
@@ -91,7 +91,7 @@ public class Commands implements CommandExecutor {
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
                 }
-                if(args.length > 0 && args.length < 2){
+                if(args.length < 0 && args.length > 2){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getDescription()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
