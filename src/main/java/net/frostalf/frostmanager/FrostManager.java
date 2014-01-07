@@ -29,6 +29,10 @@ public class FrostManager extends JavaPlugin {
     @Override
     public void onEnable(){
         listener.registerEvents();
+        this.getCommand("disable").setExecutor(new Commands(this));
+        this.getCommand("version").setExecutor(new Commands(this));
+        this.getCommand("info").setExecutor(new Commands(this));
+        this.getCommand("enable").setExecutor(new Commands(this));
     }
     
     @Override
