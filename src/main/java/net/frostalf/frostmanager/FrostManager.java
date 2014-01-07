@@ -28,5 +28,10 @@ public class FrostManager extends JavaPlugin {
     @Override
     public void onDisable(){
         
-    }    
+    }
+    
+    public void cacheData(){
+        
+    }
+    
 }
