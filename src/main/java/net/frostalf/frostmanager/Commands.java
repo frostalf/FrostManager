@@ -2,6 +2,7 @@
 package net.frostalf.frostmanager;
 
 import java.util.logging.Level;
+import net.frostalf.frostmanager.util.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,7 +26,7 @@ public class Commands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         
         if(cmd.getName().equalsIgnoreCase("disable")){
-            if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.disable")){
+            if(Permissions.DISABLE.hasPerm(sender)){
                 if(args.length > 0 && args.length < 2){
                     pm.disablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     plugin.reCacheData();
@@ -49,7 +50,7 @@ public class Commands implements CommandExecutor {
         }
         
         if(cmd.getName().equalsIgnoreCase("enable")){
-            if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.enable")){
+            if(Permissions.ENABLE.hasPerm(sender)){
               if(args.length > 0 && args.length < 2){
                     pm.enablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
@@ -71,7 +72,7 @@ public class Commands implements CommandExecutor {
         }
         
         if(cmd.getName().equalsIgnoreCase("version")){
-            if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.version")){
+            if(Permissions.VERSION.hasPerm(sender)){
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
                 }
@@ -87,7 +88,7 @@ public class Commands implements CommandExecutor {
         }
         
         if(cmd.getName().equalsIgnoreCase("info")){
-            if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.info")){
+            if(Permissions.INFO.hasPerm(sender)){
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
                 }
