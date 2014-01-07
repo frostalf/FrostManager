@@ -1,0 +1,5 @@
+name: FrostManager
+main: net.frostalf.frostalfmanager.FrostManager
+version: ${project.version}
+author: Frostalf
+description: Plugin to enable or disable plugins without restarting server.
