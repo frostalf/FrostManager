@@ -27,9 +27,10 @@ public class Commands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("disable")){
             if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.disable")){
                 if(args.length > 0 && args.length < 2){
-                    pm.disablePlugin(pm.getPlugin(args[0]));
+                    pm.disablePlugin(plugin.getPlugin(args[0]).getPlugin());
+                    plugin.reCacheData();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
-                    if(pm.getPlugin(args[0]).isEnabled() == false){
+                    if(plugin.getPlugin(args[0]).isEnabled() == false){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled!"));
                         plugin.getLogger().log(Level.INFO, "Plugin: {0} Disabled!", pm.getPlugin(args[0]).getName());
                     } else {
@@ -50,9 +51,10 @@ public class Commands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("enable")){
             if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.enable")){
               if(args.length > 0 && args.length < 2){
-                    pm.enablePlugin(pm.getPlugin(args[0]));
+                    pm.enablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
-                    if(pm.getPlugin(args[0]).isEnabled() == true){
+                    plugin.reCacheData();
+                    if(plugin.getPlugin(args[0]).isEnabled() == true){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled!"));
                         plugin.getLogger().log(Level.INFO, "Plugin: {0} Enabled!", pm.getPlugin(args[0]).getName());
                     } else {
@@ -74,7 +76,23 @@ public class Commands implements CommandExecutor {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
                 }
                 if(args.length > 0 && args.length < 2){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] +" version: &4" + pm.getPlugin(args[0]).getDescription().getVersion()));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getVersion()));
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
+                }
+            } else {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+            }
+            return true;
+        }
+        
+        if(cmd.getName().equalsIgnoreCase("info")){
+            if(sender.hasPermission("frostmanager.*") || sender.hasPermission("frostmanager.info")){
+                if(args.length == 0){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
+                }
+                if(args.length > 0 && args.length < 2){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getDescription()));
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
                 }
