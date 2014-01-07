@@ -20,15 +20,17 @@ public class Commands implements CommandExecutor {
         this.plugin = plugin;
     }
     
-    private PluginManager pm = plugin.getServer().getPluginManager();
+    private PluginManager pm;
+    
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(cmd.getName().equalsIgnoreCase("disable")){
+        pm = plugin.getServer().getPluginManager();
+        if(cmd.getName().equalsIgnoreCase("fmdisable")){
             if(Permissions.DISABLE.hasPerm(sender)){
-                if(args.length > 0 && args.length < 2){
+                if(args.length == 1){
                     pm.disablePlugin(plugin.getPlugin(args[0]).getPlugin());
-                    plugin.reCacheData();
+                    plugin.recacheData();
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
                     if(plugin.getPlugin(args[0]).isEnabled() == false){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled!"));
@@ -49,12 +51,12 @@ public class Commands implements CommandExecutor {
             }
         }
         
-        if(cmd.getName().equalsIgnoreCase("enable")){
+        if(cmd.getName().equalsIgnoreCase("fmenable")){
             if(Permissions.ENABLE.hasPerm(sender)){
-              if(args.length > 0 && args.length < 2){
+              if(args.length == 1){
                     pm.enablePlugin(plugin.getPlugin(args[0]).getPlugin());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
-                    plugin.reCacheData();
+                    plugin.recacheData();
                     if(plugin.getPlugin(args[0]).isEnabled() == true){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled!"));
                         plugin.getLogger().log(Level.INFO, "Plugin: {0} Enabled!", pm.getPlugin(args[0]).getName());
@@ -74,13 +76,13 @@ public class Commands implements CommandExecutor {
             }
         }
         
-        if(cmd.getName().equalsIgnoreCase("version")){
+        if(cmd.getName().equalsIgnoreCase("fmversion")){
             if(Permissions.VERSION.hasPerm(sender)){
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
                     return true;
                 }
-                if(args.length > 0 && args.length < 2){
+                if(args.length == 1){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getVersion()));
                     return true;
                 } else {
@@ -93,14 +95,14 @@ public class Commands implements CommandExecutor {
             }
         }
         
-        if(cmd.getName().equalsIgnoreCase("info")){
+        if(cmd.getName().equalsIgnoreCase("fminfo")){
             if(Permissions.INFO.hasPerm(sender)){
                 if(args.length == 0){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
                     return true;
                 }
-                if(args.length > 0 && args.length < 2){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getDescription()));
+                if(args.length == 1){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getName()));
                     return true;
                 } else {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));

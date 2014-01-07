@@ -1,23 +1,23 @@
 name: FrostManager
-main: net.frostalf.frostalfmanager.FrostManager
+main: net.frostalf.frostmanager.FrostManager
 version: ${project.version}
 author: Frostalf
 description: Plugin to enable or disable plugins without restarting server.
 
 commands:
-    version:
+    fmversion:
         usage: /version (plugin name)
         description: gets plugin version
         permission: frostmanager.version
-    enable:
+    fmenable:
         usage: /enable (plugin name)
         description: enables a plugin
         permission: frostmanager.enable
-    disable:
+    fmdisable:
         usage: /disable (plugin name)
         description: disables a plugin
         permission: frostmanager.disable
-    info:
+    fminfo:
         usage: /info (plugin name)
         description: gets plugin description(if one is present)
         permission: frostmanager.info

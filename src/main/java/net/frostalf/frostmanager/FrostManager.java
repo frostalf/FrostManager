@@ -1,12 +1,9 @@
 
 package net.frostalf.frostmanager;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import net.frostalf.frostmanager.listeners.FrostManagerListener;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,21 +15,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class FrostManager extends JavaPlugin {
 
     private FrostManagerListener listener = new FrostManagerListener(this);
-    private File dataFile;
-    private YamlConfiguration data;
-    private ArrayList<String> pluginNames = new ArrayList<>();
-    private HashMap<String, PluginInfo> plugins = new HashMap<>();
-    private FrostManager plugin;
-    private PluginManager pm = plugin.getServer().getPluginManager();
+    public HashMap<String, PluginInfo> plugins = new HashMap<>();
+    public PluginManager pm = this.getServer().getPluginManager();
     
     
     @Override
     public void onEnable(){
-        listener.registerEvents();
-        this.getCommand("disable").setExecutor(new Commands(this));
-        this.getCommand("version").setExecutor(new Commands(this));
-        this.getCommand("info").setExecutor(new Commands(this));
-        this.getCommand("enable").setExecutor(new Commands(this));
+        //listener.registerEvents();
+        this.getCommand("fmdisable").setExecutor(new Commands(this));
+        this.getCommand("fmversion").setExecutor(new Commands(this));
+        this.getCommand("fminfo").setExecutor(new Commands(this));
+        this.getCommand("fmenable").setExecutor(new Commands(this));
+        cacheData();
     }
     
     @Override
@@ -40,23 +34,44 @@ public class FrostManager extends JavaPlugin {
         
     }
     
+    public void addPlugin(String plugin, PluginInfo plugininfo){
+        this.plugins.put(plugin, plugininfo);
+    }
+    
     public void cacheData(){
-        for(String currentplugins : Arrays.asList(pm.getPlugins().toString())){
-            if(currentplugins != null){
-                for(String Names : Arrays.asList(pm.getPlugin(currentplugins).getName())){
-                    PluginInfo pluginfo = new PluginInfo(Names, pm.getPlugin(currentplugins).getDescription().getVersion(), pm.getPlugin(currentplugins).getDescription().getDescription(), pm.getPlugin(currentplugins).isEnabled());
-                    plugins.put(currentplugins, pluginfo);
-                }
+        Plugin[] pluginList = pm.getPlugins();
+        for(Plugin plugin : pluginList){
+            if(plugin == this){
+                continue;
             }
+            String name = plugin.getName();
+            PluginInfo pluginInfo = new PluginInfo(name, getVersion(name), getDescription(name), isEnabled(name));
+            this.addPlugin(name, pluginInfo);
         }
     }
     
-    public void reCacheData(){
-        this.pluginNames.clear();
+    public void recacheData(){
+        this.plugins.clear();
         this.cacheData();
     }
     
     public PluginInfo getPlugin(String plugin){
         return this.plugins.get(plugin);
+    }
+    
+    public PluginInfo getPlugin(Plugin plugin){
+        return this.plugins.get(plugin.getName());
+    }
+    
+    public String getVersion(String name){
+        return pm.getPlugin(name).getDescription().getVersion();
+    }
+    
+    public String getDescription(String name){
+        return pm.getPlugin(name).getDescription().getDescription();
+    }
+    
+    public boolean isEnabled(String name){
+        return pm.getPlugin(name).isEnabled();
     }
 }
