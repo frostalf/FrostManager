@@ -24,7 +24,6 @@ public class Commands implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        
         if(cmd.getName().equalsIgnoreCase("disable")){
             if(Permissions.DISABLE.hasPerm(sender)){
                 if(args.length > 0 && args.length < 2){
