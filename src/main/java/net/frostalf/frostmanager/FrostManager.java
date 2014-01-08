@@ -1,9 +1,7 @@
 
 package net.frostalf.frostmanager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import net.frostalf.frostmanager.listeners.FrostManagerListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,10 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class FrostManager extends JavaPlugin {
 
-    private FrostManagerListener listener = new FrostManagerListener(this);
     public HashMap<String, PluginInfo> plugins = new HashMap<>();
+    private HashMap<Plugin, String> pluginNames = new HashMap<>();
     public PluginManager pm = this.getServer().getPluginManager();
-    
     
     @Override
     public void onEnable(){
@@ -26,7 +23,7 @@ public class FrostManager extends JavaPlugin {
         this.getCommand("fmversion").setExecutor(new Commands(this));
         this.getCommand("fminfo").setExecutor(new Commands(this));
         this.getCommand("fmenable").setExecutor(new Commands(this));
-        cacheData();
+        this.cacheData();
     }
     
     @Override
@@ -39,14 +36,12 @@ public class FrostManager extends JavaPlugin {
     }
     
     public void cacheData(){
-        Plugin[] pluginList = pm.getPlugins();
-        for(Plugin plugin : pluginList){
-            if(plugin == this){
+        for(Plugin plugin : pm.getPlugins()){
+            if(plugin.getName().equals(this.getName())){
                 continue;
             }
-            String name = plugin.getName();
-            PluginInfo pluginInfo = new PluginInfo(name, getVersion(name), getDescription(name), isEnabled(name));
-            this.addPlugin(name, pluginInfo);
+            PluginInfo pluginInfo = new PluginInfo(plugin, plugin.getName().toLowerCase(), plugin.getDescription().getVersion(), plugin.getDescription().getDescription(), plugin.isEnabled());
+            this.addPlugin(plugin.getName().toLowerCase(), pluginInfo);
         }
     }
     
@@ -56,22 +51,14 @@ public class FrostManager extends JavaPlugin {
     }
     
     public PluginInfo getPlugin(String plugin){
-        return this.plugins.get(plugin);
+        return this.plugins.get(plugin.toLowerCase());
     }
     
-    public PluginInfo getPlugin(Plugin plugin){
-        return this.plugins.get(plugin.getName());
+    public void disablePlugin(String plugin){
+        pm.disablePlugin(this.getPlugin(plugin.toLowerCase()).getPlugin());
     }
     
-    public String getVersion(String name){
-        return pm.getPlugin(name).getDescription().getVersion();
-    }
-    
-    public String getDescription(String name){
-        return pm.getPlugin(name).getDescription().getDescription();
-    }
-    
-    public boolean isEnabled(String name){
-        return pm.getPlugin(name).isEnabled();
+    public void enablePlugin(String plugin){
+        pm.enablePlugin(this.getPlugin(plugin).getPlugin());
     }
 }

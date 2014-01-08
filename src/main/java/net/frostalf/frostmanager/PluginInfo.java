@@ -10,17 +10,14 @@ import org.bukkit.plugin.PluginManager;
  */
 public class PluginInfo {
     
-    private FrostManager plugin;
-    public PluginInfo(FrostManager plugin){
+    private String name;
+    private String version;
+    private String description;
+    private boolean enabled;
+    private Plugin plugin;
+    
+    public PluginInfo(Plugin plugin, String name, String version, String description, boolean enabled){
         this.plugin = plugin;
-    }
-    
-    public String name;
-    public String version;
-    public String description;
-    public boolean enabled;
-    
-    public PluginInfo(String name, String version, String description, boolean enabled){
         this.name = name;
         this.version = version;
         this.description = description;
@@ -44,8 +41,7 @@ public class PluginInfo {
     }
     
     public Plugin getPlugin(){
-        PluginManager pm = plugin.getServer().getPluginManager();
-        return pm.getPlugin(this.name);
+        return this.plugin;
     }
 
 }
