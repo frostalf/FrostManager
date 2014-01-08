@@ -14,7 +14,7 @@ import org.bukkit.plugin.PluginManager;
  */
 public class FrostManagerListener implements Listener {
 
-    private FrostManager plugin;
+    private final FrostManager plugin;
     
     public FrostManagerListener(FrostManager plugin){
         this.plugin = plugin;

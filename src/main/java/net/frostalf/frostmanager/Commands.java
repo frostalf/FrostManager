@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginManager;
 
 /**
  *
@@ -15,22 +14,17 @@ import org.bukkit.plugin.PluginManager;
  */
 public class Commands implements CommandExecutor {
     
-    private FrostManager plugin;
+    private final FrostManager plugin;
     public Commands(FrostManager plugin){
         this.plugin = plugin;
-    }
-    
-    private PluginManager pm;
-    
+    }    
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        pm = plugin.getServer().getPluginManager();
         if(cmd.getName().equalsIgnoreCase("fmdisable")){
             if(Permissions.DISABLE.hasPerm(sender)){
                 if(args.length == 1){
-                    pm.disablePlugin(plugin.getPlugin(args[0]).getPlugin());
-                    plugin.recacheData();
+                    plugin.disablePlugin(args[0]);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
                     if(plugin.getPlugin(args[0]).isEnabled() == false){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled!"));
@@ -54,10 +48,8 @@ public class Commands implements CommandExecutor {
         if(cmd.getName().equalsIgnoreCase("fmenable")){
             if(Permissions.ENABLE.hasPerm(sender)){
               if(args.length == 1){
-                    pm.enablePlugin(plugin.getPlugin(args[0]).getPlugin());
-                    //plugin.disablePlugin(args[0]);
+                    plugin.enablePlugin(args[0]);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
-                    plugin.recacheData();
                     if(plugin.getPlugin(args[0]).isEnabled() == true){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled!"));
                         plugin.getLogger().log(Level.INFO, "Plugin: {0} Enabled!", plugin.getPlugin(args[0]).getName());
@@ -114,7 +106,6 @@ public class Commands implements CommandExecutor {
                 return true;
             }
         }
-        
         return false;
     }
 }

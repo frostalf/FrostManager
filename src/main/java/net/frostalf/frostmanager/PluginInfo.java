@@ -10,11 +10,11 @@ import org.bukkit.plugin.PluginManager;
  */
 public class PluginInfo {
     
-    private String name;
-    private String version;
-    private String description;
-    private boolean enabled;
-    private Plugin plugin;
+    private final String name;
+    private final String version;
+    private final String description;
+    private final boolean enabled;
+    private final Plugin plugin;
     
     public PluginInfo(Plugin plugin, String name, String version, String description, boolean enabled){
         this.plugin = plugin;
