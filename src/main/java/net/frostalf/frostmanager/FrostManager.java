@@ -17,17 +17,20 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class FrostManager extends JavaPlugin {
 
-    private HashMap<String, PluginInfo> plugins = new HashMap<>();
-    private HashMap<String, FileInfo> pluginFiles = new HashMap<>();
-    private PluginManager pm = this.getServer().getPluginManager();
+    private final HashMap<String, PluginInfo> plugins = new HashMap<>();
+    private final HashMap<String, FileInfo> pluginFiles = new HashMap<>();
+    private final PluginManager pm = this.getServer().getPluginManager();
+    private final Commands command = new Commands(this);
     
     @Override
     public void onEnable(){
-        this.getCommand("fmdisable").setExecutor(new Commands(this));
-        this.getCommand("fmenable").setExecutor(new Commands(this));
-        this.getCommand("fmversion").setExecutor(new Commands(this));
-        this.getCommand("fminfo").setExecutor(new Commands(this));
-        this.getCommand("fmreload").setExecutor(new Commands(this));
+        this.getCommand("fmdisable").setExecutor(command);
+        this.getCommand("fmenable").setExecutor(command);
+        this.getCommand("fmload").setExecutor(command);
+        this.getCommand("fmversion").setExecutor(command);
+        this.getCommand("fminfo").setExecutor(command);
+        this.getCommand("fmreload").setExecutor(command);
+        this.cacheFileList();
         this.cacheData();
     }
     
@@ -71,6 +74,11 @@ public class FrostManager extends JavaPlugin {
         }
     }
     
+    public void recacheFileList(){
+        this.pluginFiles.clear();
+        this.cacheFileList();
+    }
+    
     public FileInfo getPluginFile(String plugin){
         return this.pluginFiles.get(plugin.toLowerCase());
     }
@@ -101,8 +109,8 @@ public class FrostManager extends JavaPlugin {
             if(this.getPlugin(plugin).isEnabled()){
                 return;
             }
-            
             pm.loadPlugin(f);
+            recacheData();
         } catch (InvalidPluginException ex) {
             getLogger().log(Level.SEVERE, "Could not load plugin! Plugin file name is Invalid");
         } catch (InvalidDescriptionException ex){

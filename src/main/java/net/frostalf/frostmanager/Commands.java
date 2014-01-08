@@ -106,6 +106,30 @@ public class Commands implements CommandExecutor {
                 return true;
             }
         }
+        
+        if(cmd.getName().equalsIgnoreCase("fmload")){
+            if(Permissions.LOAD.hasPerm(sender)){
+                if(args.length == 0){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Not Enough Arguments!"));
+                    return true;
+                }
+                if(args.length == 1){
+                    plugin.loadPlugin(plugin.getPluginFile(args[0]).getName());
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLoading Plugin: &4" + plugin.getPluginFile(args[0]).getName()));
+                    if(plugin.getPlugin(args[0]).isEnabled()){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Loaded successfully"));
+                    }
+                }
+            }
+        }
+        if(cmd.getName().equalsIgnoreCase("fmreload")){
+            if(Permissions.RELOAD.hasPerm(sender)){
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Reloading Plugin"));
+                plugin.recacheData();
+                plugin.recacheFileList();
+            }
+            return true;
+        }
         return false;
     }
 }

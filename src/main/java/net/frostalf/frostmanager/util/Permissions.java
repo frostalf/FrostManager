@@ -14,7 +14,9 @@ public enum Permissions {
     ENABLE("frostmanager.enable", "", "frostmanager.*"),
     DISABLE("frostmanager.disable", "", "frostmanager.*"),
     VERSION("frostmanager.version", "", "frostmanager.*"),
-    INFO("frostmanager.info", "", "frostmanager.*");
+    INFO("frostmanager.info", "", "frostmanager.*"),
+    LOAD("frostmanager.load", "", "frostmanager.*"),
+    RELOAD("frostmanager.reload", "", "frostmanager.*");
     
     String perm;
     String requiredPerm;
