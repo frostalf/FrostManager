@@ -2,7 +2,6 @@
 package net.frostalf.frostmanager;
 
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginManager;
 
 /**
  *

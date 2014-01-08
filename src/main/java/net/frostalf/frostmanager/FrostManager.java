@@ -18,6 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class FrostManager extends JavaPlugin {
 
     private HashMap<String, PluginInfo> plugins = new HashMap<>();
+    private HashMap<String, FileInfo> pluginFiles = new HashMap<>();
     private PluginManager pm = this.getServer().getPluginManager();
     
     @Override
@@ -38,6 +39,9 @@ public class FrostManager extends JavaPlugin {
     public void addPlugin(String plugin, PluginInfo plugininfo){
         this.plugins.put(plugin, plugininfo);
     }
+    public void addPluginFile(String plugin, FileInfo fileinfo){
+        this.pluginFiles.put(plugin, fileinfo);
+    }
     
     public void cacheData(){
         for(Plugin plugin : pm.getPlugins()){
@@ -52,6 +56,23 @@ public class FrostManager extends JavaPlugin {
     public void recacheData(){
         this.plugins.clear();
         this.cacheData();
+    }
+    
+    public void cacheFileList(){
+        for(File pluginFile : getDataFolder().listFiles()){
+            if(pluginFile.getName().equals(this.getName())){
+                continue;
+            }
+            if(pluginFile.isFile()){
+                continue;
+            }
+            FileInfo FileInfo = new FileInfo(pluginFile, pluginFile.getName());
+            this.addPluginFile(pluginFile.getName().toLowerCase(), FileInfo);
+        }
+    }
+    
+    public FileInfo getPluginFile(String plugin){
+        return this.pluginFiles.get(plugin.toLowerCase());
     }
     
     public PluginInfo getPlugin(String plugin){
@@ -74,12 +95,14 @@ public class FrostManager extends JavaPlugin {
         recacheData();
     }
     
-    public void loadPlugin(File plugin){
+    public void loadPlugin(String plugin){
+        File f = new File(getDataFolder().getParentFile() + File.separator + this.getPluginFile(plugin).getFile());
         try {
-            if(pm.loadPlugin(plugin).isEnabled()){
+            if(this.getPlugin(plugin).isEnabled()){
                 return;
             }
-            pm.loadPlugin(plugin);
+            
+            pm.loadPlugin(f);
         } catch (InvalidPluginException ex) {
             getLogger().log(Level.SEVERE, "Could not load plugin! Plugin file name is Invalid");
         } catch (InvalidDescriptionException ex){
