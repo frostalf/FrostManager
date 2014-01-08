@@ -4,6 +4,8 @@ package net.frostalf.frostmanager;
 import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
 import org.bukkit.plugin.Plugin;
@@ -24,12 +26,7 @@ public class FrostManager extends JavaPlugin {
     
     @Override
     public void onEnable(){
-        this.getCommand("fmdisable").setExecutor(command);
-        this.getCommand("fmenable").setExecutor(command);
-        this.getCommand("fmload").setExecutor(command);
-        this.getCommand("fmversion").setExecutor(command);
-        this.getCommand("fminfo").setExecutor(command);
-        this.getCommand("fmreload").setExecutor(command);
+        this.getCommand("fm").setExecutor(command);
         this.cacheFileList();
         this.cacheData();
     }
@@ -103,7 +100,7 @@ public class FrostManager extends JavaPlugin {
         recacheData();
     }
     
-    public void loadPlugin(String plugin){
+    public void loadPlugin(String plugin, CommandSender sender){
         File f = new File(getDataFolder().getParentFile() + File.separator + this.getPluginFile(plugin).getFile());
         try {
             if(this.getPlugin(plugin).isEnabled()){
@@ -113,10 +110,13 @@ public class FrostManager extends JavaPlugin {
             recacheData();
         } catch (InvalidPluginException ex) {
             getLogger().log(Level.SEVERE, "Could not load plugin! Plugin file name is Invalid");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Could not find plugin!"));
         } catch (InvalidDescriptionException ex){
             getLogger().log(Level.SEVERE, "Plugin has invalid plugin.yml!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin has invalid plugin.yml!"));
         } catch (UnknownDependencyException ex){
             getLogger().log(Level.SEVERE, "Plugin has dependencies that are not present on server!");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin has dependencies not present on server!"));
         }
     }
 }

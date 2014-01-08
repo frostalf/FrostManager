@@ -5,19 +5,7 @@ author: Frostalf
 description: Plugin to enable or disable plugins without restarting server.
 
 commands:
-    fmversion:
-        usage: /version (plugin name)
-        description: gets plugin version
-        permission: frostmanager.version
-    fmenable:
-        usage: /enable (plugin name)
-        description: enables a plugin
-        permission: frostmanager.enable
-    fmdisable:
-        usage: /disable (plugin name)
-        description: disables a plugin
-        permission: frostmanager.disable
-    fminfo:
-        usage: /info (plugin name)
-        description: gets plugin description(if one is present)
-        permission: frostmanager.info
+    fm:
+        usage: /fm (action) [Plugin Name]
+        description: does performed actioned specified
+        alias: [frostmanager]

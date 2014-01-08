@@ -21,112 +21,124 @@ public class Commands implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(cmd.getName().equalsIgnoreCase("fmdisable")){
-            if(Permissions.DISABLE.hasPerm(sender)){
-                if(args.length == 1){
-                    plugin.disablePlugin(args[0]);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
-                    if(plugin.getPlugin(args[0]).isEnabled() == false){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled!"));
-                        plugin.getLogger().log(Level.INFO, "Plugin: {0} Disabled!", plugin.getPlugin(args[0]).getName());
-                        return true;
+        if(cmd.getName().equalsIgnoreCase("fm")){
+            String action = args[0];
+            String pluginName = args[1];
+            if(args.length == 2){
+                if(action.equalsIgnoreCase("disable")){
+                    if(Permissions.DISABLE.hasPerm(sender)){
+                        plugin.disablePlugin(pluginName);
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
+                        if(plugin.getPlugin(pluginName).isEnabled() == false){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled: " + pluginName));
+                            plugin.getLogger().log(Level.INFO, "Plugin: {0} Disabled!", plugin.getPlugin(pluginName).getName());
+                        } else {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Disabled!"));
+                            plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Disabled!", plugin.getPlugin(pluginName).getName());
+                        }
                     } else {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Disabled!"));
-                        plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Disabled!", plugin.getPlugin(args[0]).getName());
-                        return true;
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
                     }
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
                     return true;
                 }
-            } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
-                return true;
-            }
-        }
-        
-        if(cmd.getName().equalsIgnoreCase("fmenable")){
-            if(Permissions.ENABLE.hasPerm(sender)){
-              if(args.length == 1){
-                    plugin.enablePlugin(args[0]);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
-                    if(plugin.getPlugin(args[0]).isEnabled() == true){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled!"));
-                        plugin.getLogger().log(Level.INFO, "Plugin: {0} Enabled!", plugin.getPlugin(args[0]).getName());
-                        return true;
+                
+                if(action.equalsIgnoreCase("enable")){
+                    if(Permissions.ENABLE.hasPerm(sender)){
+                        plugin.enablePlugin(pluginName);
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
+                        if(plugin.getPlugin(pluginName).isEnabled() == true){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled: " + pluginName));
+                        } else {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Enabled!"));
+                            plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Enabled!", plugin.getPlugin(pluginName).getName());
+                        }
                     } else {
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Enabled!"));
-                        plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Enabled!", plugin.getPlugin(args[0]).getName());
-                        return true;
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
                     }
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
                     return true;
                 }
-            } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
-                return true;
-            }
-        }
-        
-        if(cmd.getName().equalsIgnoreCase("fmversion")){
-            if(Permissions.VERSION.hasPerm(sender)){
-                if(args.length == 0){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
-                    return true;
-                }
-                if(args.length == 1){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getVersion()));
-                    return true;
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
-                    return true;
-                }
-            } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
-                return true;
-            }
-        }
-        
-        if(cmd.getName().equalsIgnoreCase("fminfo")){
-            if(Permissions.INFO.hasPerm(sender)){
-                if(args.length == 0){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
-                    return true;
-                }
-                if(args.length == 1){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + args[0] + " version: &4" + plugin.getPlugin(args[0]).getDescription()));
-                    return true;
-                } else {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
-                    return true;
-                }
-            } else {
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
-                return true;
-            }
-        }
-        
-        if(cmd.getName().equalsIgnoreCase("fmload")){
-            if(Permissions.LOAD.hasPerm(sender)){
-                if(args.length == 0){
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Not Enough Arguments!"));
-                    return true;
-                }
-                if(args.length == 1){
-                    plugin.loadPlugin(plugin.getPluginFile(args[0]).getName());
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLoading Plugin: &4" + plugin.getPluginFile(args[0]).getName()));
-                    if(plugin.getPlugin(args[0]).isEnabled()){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Loaded successfully"));
+                
+                if(action.equalsIgnoreCase("load")){
+                    if(Permissions.LOAD.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLoading Plugin: &4" + plugin.getPluginFile(pluginName).getName()));
+                        plugin.loadPlugin(plugin.getPluginFile(pluginName).getName(), sender);
+                        if(plugin.getPlugin(pluginName).isEnabled()){
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Loaded successfully: " + pluginName));
+                        } else {
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Not Loaded: " + pluginName));
+                        }
                     }
+                    return true;
+                }
+                
+                if(action.equalsIgnoreCase("version")){
+                    if(Permissions.VERSION.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " version: &4" + plugin.getPlugin(pluginName).getVersion()));
+                    } else {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                    }
+                    return true;
+                }
+                
+                if(action.equalsIgnoreCase("info")){
+                    if(Permissions.INFO.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " version: &4" + plugin.getPlugin(pluginName).getDescription()));
+                    } else {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                    }
+                    return true;
                 }
             }
-        }
-        if(cmd.getName().equalsIgnoreCase("fmreload")){
-            if(Permissions.RELOAD.hasPerm(sender)){
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Reloading Plugin"));
-                plugin.recacheData();
-                plugin.recacheFileList();
+            
+            if(args.length == 1){
+                
+                if(action.equalsIgnoreCase("version")){
+                    if(Permissions.VERSION.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
+                    } else {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                    }
+                    return true;
+                }
+                
+                if(action.equalsIgnoreCase("info")){
+                    if(Permissions.INFO.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
+                    } else {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                    }
+                    return true;
+                }
+                
+                if(action.equalsIgnoreCase("reload")){
+                    if(Permissions.RELOAD.hasPerm(sender)){
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Reloading Plugin"));
+                        plugin.recacheData();
+                        plugin.recacheFileList();
+                    } else {
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                    }
+                    return true;
+                }
+                return true;
+            }
+            
+            if(args.length == 0){
+                if(Permissions.MANAGE.hasPerm(sender)){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Missing Arguments!"));
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                }
+                return true;
+            }
+            
+            if(args.length < 2){
+                if(Permissions.MANAGE.hasPerm(sender)){
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));
+                } else {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
+                }
+                return true;
             }
             return true;
         }

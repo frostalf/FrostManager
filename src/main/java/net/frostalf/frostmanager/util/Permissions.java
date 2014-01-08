@@ -2,6 +2,7 @@
 package net.frostalf.frostmanager.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,7 +17,8 @@ public enum Permissions {
     VERSION("frostmanager.version", "", "frostmanager.*"),
     INFO("frostmanager.info", "", "frostmanager.*"),
     LOAD("frostmanager.load", "", "frostmanager.*"),
-    RELOAD("frostmanager.reload", "", "frostmanager.*");
+    RELOAD("frostmanager.reload", "", "frostmanager.*"),
+    MANAGE("frostmanager.manage", "", "frostmanager.*");
     
     String perm;
     String requiredPerm;
@@ -25,9 +27,7 @@ public enum Permissions {
     Permissions(String perm, String requiredPerm, String... hierarchy) {
         this.perm = perm;
         this.requiredPerm = requiredPerm;
-        for(String s : hierarchy){
-            this.hierarchy.add(s);
-        }
+        this.hierarchy.addAll(Arrays.asList(hierarchy));
     }
     
     public boolean hasPerm(CommandSender sender){
