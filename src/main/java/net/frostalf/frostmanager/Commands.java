@@ -21,10 +21,10 @@ public class Commands implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(cmd.getName().equalsIgnoreCase("fm")){
-            String action = args[0];
-            String pluginName = args[1];
+        if(cmd.getName().equalsIgnoreCase("fm")){ 
             if(args.length == 2){
+                String action = args[0];
+                String pluginName = args[1];
                 if(action.equalsIgnoreCase("disable")){
                     if(Permissions.DISABLE.hasPerm(sender)){
                         plugin.disablePlugin(pluginName);
@@ -82,7 +82,7 @@ public class Commands implements CommandExecutor {
                 
                 if(action.equalsIgnoreCase("info")){
                     if(Permissions.INFO.hasPerm(sender)){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " version: &4" + plugin.getPlugin(pluginName).getDescription()));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " info: &4" + plugin.getPlugin(pluginName).getDescription()));
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
                     }
@@ -91,7 +91,7 @@ public class Commands implements CommandExecutor {
             }
             
             if(args.length == 1){
-                
+                String action = args[0];
                 if(action.equalsIgnoreCase("version")){
                     if(Permissions.VERSION.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getVersion()));
@@ -103,7 +103,7 @@ public class Commands implements CommandExecutor {
                 
                 if(action.equalsIgnoreCase("info")){
                     if(Permissions.INFO.hasPerm(sender)){
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager version: &4" + plugin.getDescription().getDescription()));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager info: &4" + plugin.getDescription().getDescription()));
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You don't have Permissions!"));
                     }

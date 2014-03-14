@@ -45,7 +45,7 @@ public class FrostManager extends JavaPlugin {
     
     public void cacheData(){
         for(Plugin plugin : pm.getPlugins()){
-            if(plugin.getName().equals(this.getName())){
+            if(plugin.getName().equalsIgnoreCase(this.getName())){
                 continue;
             }
             PluginInfo pluginInfo = new PluginInfo(plugin, plugin.getName().toLowerCase(), plugin.getDescription().getVersion(), plugin.getDescription().getDescription(), plugin.isEnabled());
@@ -59,15 +59,20 @@ public class FrostManager extends JavaPlugin {
     }
     
     public void cacheFileList(){
-        for(File pluginFile : getDataFolder().listFiles()){
-            if(pluginFile.getName().equals(this.getName())){
+        String dirname = getDataFolder().getParent();
+        File fl = new File(dirname);
+        String fileList[] = fl.list();
+        
+        for (int i=0; i < fileList.length; i++) {
+            File f = new File(dirname + File.separator + fileList[i]);
+            if(f.isDirectory()){
                 continue;
             }
-            if(pluginFile.isFile()){
+            if(f.getName().equalsIgnoreCase(this.getName())){
                 continue;
             }
-            FileInfo FileInfo = new FileInfo(pluginFile, pluginFile.getName());
-            this.addPluginFile(pluginFile.getName().toLowerCase(), FileInfo);
+            FileInfo FileInfo = new FileInfo(f, f.getName());
+            this.addPluginFile(f.getName().toLowerCase(), FileInfo);
         }
     }
     
