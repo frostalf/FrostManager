@@ -17,8 +17,8 @@ public class Commands implements CommandExecutor {
     private final FrostManager plugin;
     public Commands(FrostManager plugin){
         this.plugin = plugin;
-    }    
-    
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if(cmd.getName().equalsIgnoreCase("fm")){ 
@@ -41,7 +41,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("enable")){
                     if(Permissions.ENABLE.hasPerm(sender)){
                         plugin.enablePlugin(pluginName);
@@ -57,7 +57,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("load")){
                     if(Permissions.LOAD.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLoading Plugin: &4" + plugin.getPluginFile(pluginName).getName()));
@@ -70,7 +70,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("version")){
                     if(Permissions.VERSION.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " version: &4" + plugin.getPlugin(pluginName).getVersion()));
@@ -79,7 +79,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("info")){
                     if(Permissions.INFO.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&b" + pluginName + " info: &4" + plugin.getPlugin(pluginName).getDescription()));
@@ -89,7 +89,7 @@ public class Commands implements CommandExecutor {
                     return true;
                 }
             }
-            
+
             if(args.length == 1){
                 String action = args[0];
                 if(action.equalsIgnoreCase("version")){
@@ -100,7 +100,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("info")){
                     if(Permissions.INFO.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bFrostManager info: &4" + plugin.getDescription().getDescription()));
@@ -109,7 +109,7 @@ public class Commands implements CommandExecutor {
                     }
                     return true;
                 }
-                
+
                 if(action.equalsIgnoreCase("reload")){
                     if(Permissions.RELOAD.hasPerm(sender)){
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Reloading Plugin"));
@@ -122,7 +122,7 @@ public class Commands implements CommandExecutor {
                 }
                 return true;
             }
-            
+
             if(args.length == 0){
                 if(Permissions.MANAGE.hasPerm(sender)){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Missing Arguments!"));
@@ -131,7 +131,7 @@ public class Commands implements CommandExecutor {
                 }
                 return true;
             }
-            
+
             if(args.length < 2){
                 if(Permissions.MANAGE.hasPerm(sender)){
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Too Many Arguments!"));

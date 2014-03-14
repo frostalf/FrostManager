@@ -23,26 +23,26 @@ public class FrostManager extends JavaPlugin {
     private final HashMap<String, FileInfo> pluginFiles = new HashMap<>();
     private final PluginManager pm = this.getServer().getPluginManager();
     private final Commands command = new Commands(this);
-    
+
     @Override
     public void onEnable(){
         this.getCommand("fm").setExecutor(command);
         this.cacheFileList();
         this.cacheData();
     }
-    
+
     @Override
     public void onDisable(){
         
     }
-    
+
     public void addPlugin(String plugin, PluginInfo plugininfo){
         this.plugins.put(plugin, plugininfo);
     }
     public void addPluginFile(String plugin, FileInfo fileinfo){
         this.pluginFiles.put(plugin, fileinfo);
     }
-    
+
     public void cacheData(){
         for(Plugin plugin : pm.getPlugins()){
             if(plugin.getName().equalsIgnoreCase(this.getName())){
@@ -52,17 +52,17 @@ public class FrostManager extends JavaPlugin {
             this.addPlugin(plugin.getName().toLowerCase(), pluginInfo);
         }
     }
-    
+
     public void recacheData(){
         this.plugins.clear();
         this.cacheData();
     }
-    
+
     public void cacheFileList(){
         String dirname = getDataFolder().getParent();
         File fl = new File(dirname);
         String fileList[] = fl.list();
-        
+
         for (int i=0; i < fileList.length; i++) {
             File f = new File(dirname + File.separator + fileList[i]);
             if(f.isDirectory()){
@@ -75,20 +75,20 @@ public class FrostManager extends JavaPlugin {
             this.addPluginFile(f.getName().toLowerCase(), FileInfo);
         }
     }
-    
+
     public void recacheFileList(){
         this.pluginFiles.clear();
         this.cacheFileList();
     }
-    
+
     public FileInfo getPluginFile(String plugin){
         return this.pluginFiles.get(plugin.toLowerCase());
     }
-    
+
     public PluginInfo getPlugin(String plugin){
         return this.plugins.get(plugin.toLowerCase());
     }
-    
+
     public void disablePlugin(String plugin){
         if(!this.getPlugin(plugin).isEnabled()){
             return;
@@ -96,7 +96,7 @@ public class FrostManager extends JavaPlugin {
         pm.disablePlugin(this.getPlugin(plugin).getPlugin());
         recacheData();
     }
-    
+
     public void enablePlugin(String plugin){
         if(this.getPlugin(plugin).isEnabled()){
             return;
@@ -104,7 +104,7 @@ public class FrostManager extends JavaPlugin {
         pm.enablePlugin(this.getPlugin(plugin).getPlugin());
         recacheData();
     }
-    
+
     public void loadPlugin(String plugin, CommandSender sender){
         File f = new File(getDataFolder().getParentFile() + File.separator + this.getPluginFile(plugin).getFile());
         try {
