@@ -1,6 +1,7 @@
 
 package net.frostalf.frostmanager;
 
+import net.frostalf.frostmanager.commands.Commands;
 import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;

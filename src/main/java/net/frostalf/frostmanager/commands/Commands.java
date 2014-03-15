@@ -1,7 +1,10 @@
 
-package net.frostalf.frostmanager;
+package net.frostalf.frostmanager.commands;
 
+import com.google.common.collect.Maps;
+import java.util.Map;
 import java.util.logging.Level;
+import net.frostalf.frostmanager.FrostManager;
 import net.frostalf.frostmanager.util.Permissions;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,8 +18,13 @@ import org.bukkit.command.CommandSender;
 public class Commands implements CommandExecutor {
     
     private final FrostManager plugin;
+    private Map<String, CommandExecutor> subCommandMap = Maps.newHashMap();
     public Commands(FrostManager plugin){
         this.plugin = plugin;
+        subCommandMap.put("enable", new Enable(plugin));
+        subCommandMap.put("disable", new Disable(plugin));
+        subCommandMap.put("info", new Info(plugin));
+        subCommandMap.put("version", new Version(plugin));
     }
 
     @Override
@@ -27,35 +35,20 @@ public class Commands implements CommandExecutor {
                 String pluginName = args[1];
                 if(action.equalsIgnoreCase("disable")){
                     if(Permissions.DISABLE.hasPerm(sender)){
-                        plugin.disablePlugin(pluginName);
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Disabling Plugin!"));
-                        if(plugin.getPlugin(pluginName).isEnabled() == false){
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Disabled: " + pluginName));
-                            plugin.getLogger().log(Level.INFO, "Plugin: {0} Disabled!", plugin.getPlugin(pluginName).getName());
-                        } else {
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Disabled!"));
-                            plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Disabled!", plugin.getPlugin(pluginName).getName());
-                        }
+                        return subCommandMap.get("disable").onCommand(sender, cmd, action, args);
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
                     }
-                    return true;
+                    return false;
                 }
 
                 if(action.equalsIgnoreCase("enable")){
                     if(Permissions.ENABLE.hasPerm(sender)){
-                        plugin.enablePlugin(pluginName);
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&2Enabling Plugin!"));
-                        if(plugin.getPlugin(pluginName).isEnabled() == true){
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bPlugin Enabled: " + pluginName));
-                        } else {
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4Plugin Not Enabled!"));
-                            plugin.getLogger().log(Level.WARNING, "Plugin: {0} Could not be Enabled!", plugin.getPlugin(pluginName).getName());
-                        }
+                        return subCommandMap.get("enable").onCommand(sender, cmd, action, args);
                     } else {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4You Don't have Permissions!"));
                     }
-                    return true;
+                    return false;
                 }
 
                 if(action.equalsIgnoreCase("load")){
